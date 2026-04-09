@@ -1,0 +1,1220 @@
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The God Prompt — Viralidade não é sorte. É matemática.</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --black: #0a0a0a;
+            --white: #f5f3ee;
+            --cream: #ede9e0;
+            --accent: #c8f135;
+            --accent-dark: #a8d015;
+            --gray: #6b6b6b;
+            --gray-light: #1a1a1a;
+            --border: rgba(245, 243, 238, 0.1);
+            --font-display: 'Syne', sans-serif;
+            --font-body: 'DM Sans', sans-serif;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--black);
+            color: var(--white);
+            font-family: var(--font-body);
+            font-size: 17px;
+            line-height: 1.65;
+            overflow-x: hidden;
+        }
+
+        /* NOISE TEXTURE */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 1000;
+            opacity: 0.4;
+        }
+
+        .container {
+            max-width: 760px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .container-wide {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* NAV */
+        nav {
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            background: rgba(10, 10, 10, 0.92);
+            backdrop-filter: blur(12px);
+            z-index: 100;
+        }
+
+        nav .inner {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .nav-logo {
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: 15px;
+            letter-spacing: -0.02em;
+            color: var(--white);
+        }
+
+        .nav-logo span {
+            color: var(--accent);
+        }
+
+        .nav-cta {
+            background: var(--accent);
+            color: var(--black);
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 13px;
+            padding: 8px 18px;
+            border-radius: 4px;
+            text-decoration: none;
+            letter-spacing: 0.02em;
+            transition: background .2s, transform .15s;
+        }
+
+        .nav-cta:hover {
+            background: var(--accent-dark);
+            transform: translateY(-1px);
+        }
+
+        /* HERO */
+        .hero {
+            padding: 100px 0 80px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: -200px;
+            right: -200px;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(200, 241, 53, 0.07) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-family: var(--font-body);
+            font-size: 12px;
+            font-weight: 500;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--accent);
+            border: 1px solid rgba(200, 241, 53, 0.3);
+            padding: 5px 12px;
+            border-radius: 2px;
+            margin-bottom: 28px;
+            opacity: 0;
+            animation: fadeUp 0.6s ease forwards 0.1s;
+        }
+
+        .hero-eyebrow::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: var(--accent);
+            border-radius: 50%;
+            animation: pulse 2s ease infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1
+            }
+
+            50% {
+                opacity: .3
+            }
+        }
+
+        .hero h1 {
+            font-family: var(--font-display);
+            font-size: clamp(42px, 7vw, 80px);
+            font-weight: 800;
+            line-height: 1.0;
+            letter-spacing: -0.03em;
+            margin-bottom: 12px;
+            opacity: 0;
+            animation: fadeUp 0.7s ease forwards 0.2s;
+        }
+
+        .hero h1 em {
+            font-style: normal;
+            color: var(--accent);
+        }
+
+        .hero-sub {
+            font-size: clamp(18px, 2.5vw, 22px);
+            color: rgba(245, 243, 238, 0.55);
+            font-weight: 300;
+            max-width: 560px;
+            margin-bottom: 40px;
+            line-height: 1.5;
+            opacity: 0;
+            animation: fadeUp 0.7s ease forwards 0.35s;
+        }
+
+        .hero-sub strong {
+            color: var(--white);
+            font-weight: 500;
+        }
+
+        .hero-cta-group {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            opacity: 0;
+            animation: fadeUp 0.7s ease forwards 0.5s;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--accent);
+            color: var(--black);
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 16px;
+            padding: 16px 32px;
+            border-radius: 4px;
+            text-decoration: none;
+            letter-spacing: -0.01em;
+            transition: all .2s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(200, 241, 53, 0.25);
+        }
+
+        .btn-primary svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .hero-trust {
+            font-size: 13px;
+            color: rgba(245, 243, 238, 0.4);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .hero-trust::before {
+            content: '🔒';
+            font-size: 12px;
+        }
+
+        /* STATS BAR */
+        .stats-bar {
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            padding: 32px 0;
+            margin: 0 0 80px;
+            opacity: 0;
+            animation: fadeUp 0.7s ease forwards 0.65s;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        .stat-item+.stat-item {
+            border-left: 1px solid var(--border);
+        }
+
+        .stat-num {
+            font-family: var(--font-display);
+            font-size: 36px;
+            font-weight: 800;
+            color: var(--accent);
+            letter-spacing: -0.04em;
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: rgba(245, 243, 238, 0.45);
+            margin-top: 4px;
+        }
+
+        /* SECTION SHARED */
+        section {
+            padding: 80px 0;
+        }
+
+        .section-label {
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 16px;
+            display: block;
+        }
+
+        h2 {
+            font-family: var(--font-display);
+            font-size: clamp(28px, 4vw, 42px);
+            font-weight: 800;
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+            margin-bottom: 20px;
+        }
+
+        h2 em {
+            font-style: normal;
+            color: var(--accent);
+        }
+
+        /* PROBLEM */
+        .problem {
+            background: var(--gray-light);
+        }
+
+        .problem-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2px;
+            margin-top: 40px;
+        }
+
+        .problem-item {
+            background: var(--black);
+            padding: 24px 26px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .problem-item::before {
+            content: '✗';
+            position: absolute;
+            top: 18px;
+            right: 20px;
+            font-size: 14px;
+            color: rgba(220, 60, 60, 0.5);
+        }
+
+        .problem-item p {
+            font-size: 15px;
+            color: rgba(245, 243, 238, 0.65);
+            line-height: 1.55;
+        }
+
+        .problem-item strong {
+            display: block;
+            font-family: var(--font-display);
+            font-size: 17px;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 6px;
+        }
+
+        /* MECHANISM */
+        .mechanism-intro {
+            font-size: 19px;
+            color: rgba(245, 243, 238, 0.7);
+            max-width: 600px;
+            line-height: 1.6;
+            margin-bottom: 50px;
+        }
+
+        .mechanism-intro strong {
+            color: var(--white);
+        }
+
+        .mech-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .mech-step {
+            display: grid;
+            grid-template-columns: 80px 1fr;
+            background: var(--gray-light);
+            overflow: hidden;
+            transition: background .2s;
+        }
+
+        .mech-step:hover {
+            background: #222;
+        }
+
+        .mech-num {
+            background: var(--black);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-display);
+            font-size: 28px;
+            font-weight: 800;
+            color: rgba(200, 241, 53, 0.2);
+            border-right: 1px solid var(--border);
+            min-height: 100px;
+        }
+
+        .mech-content {
+            padding: 24px 28px;
+        }
+
+        .mech-content h3 {
+            font-family: var(--font-display);
+            font-size: 19px;
+            font-weight: 700;
+            margin-bottom: 6px;
+            letter-spacing: -0.02em;
+        }
+
+        .mech-content p {
+            font-size: 15px;
+            color: rgba(245, 243, 238, 0.6);
+            line-height: 1.55;
+        }
+
+        .mech-content .tag {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: 600;
+            padding: 2px 8px;
+            border-radius: 2px;
+            margin-top: 10px;
+            background: rgba(200, 241, 53, 0.12);
+            color: var(--accent);
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+
+        /* WHAT YOU GET */
+        .deliverables {
+            background: var(--gray-light);
+        }
+
+        .del-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2px;
+            margin-top: 40px;
+        }
+
+        .del-item {
+            background: var(--black);
+            padding: 28px;
+            border-left: 3px solid transparent;
+            transition: border-color .2s;
+        }
+
+        .del-item:hover {
+            border-left-color: var(--accent);
+        }
+
+        .del-icon {
+            font-size: 22px;
+            margin-bottom: 12px;
+        }
+
+        .del-item h3 {
+            font-family: var(--font-display);
+            font-size: 17px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            letter-spacing: -0.02em;
+        }
+
+        .del-item p {
+            font-size: 14px;
+            color: rgba(245, 243, 238, 0.55);
+            line-height: 1.55;
+        }
+
+        /* FOR WHO */
+        .forwho-list {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            margin-top: 36px;
+        }
+
+        .forwho-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            background: var(--gray-light);
+            padding: 20px 24px;
+        }
+
+        .forwho-check {
+            color: var(--accent);
+            font-size: 18px;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+
+        .forwho-item p {
+            font-size: 16px;
+            color: rgba(245, 243, 238, 0.75);
+            line-height: 1.5;
+        }
+
+        .forwho-item p strong {
+            color: var(--white);
+        }
+
+        .notwho-list {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            margin-top: 12px;
+        }
+
+        .notwho-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            background: rgba(26, 26, 26, 0.5);
+            padding: 18px 24px;
+            border: 1px solid var(--border);
+        }
+
+        .notwho-x {
+            color: rgba(220, 60, 60, 0.6);
+            font-size: 16px;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .notwho-item p {
+            font-size: 15px;
+            color: rgba(245, 243, 238, 0.4);
+            line-height: 1.5;
+        }
+
+        /* OBJECTIONS */
+        .obj-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            margin-top: 36px;
+        }
+
+        .obj-item {
+            background: var(--gray-light);
+            overflow: hidden;
+        }
+
+        .obj-q {
+            padding: 20px 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            transition: background .15s;
+            font-family: var(--font-display);
+            font-weight: 600;
+            font-size: 17px;
+            letter-spacing: -0.02em;
+        }
+
+        .obj-q:hover {
+            background: #222;
+        }
+
+        .obj-q .arrow {
+            color: var(--accent);
+            font-size: 20px;
+            flex-shrink: 0;
+            transition: transform .25s;
+        }
+
+        .obj-a {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height .35s ease, padding .35s ease;
+            padding: 0 24px;
+            font-size: 15px;
+            color: rgba(245, 243, 238, 0.6);
+            line-height: 1.65;
+        }
+
+        .obj-item.open .obj-a {
+            max-height: 300px;
+            padding: 0 24px 20px;
+        }
+
+        .obj-item.open .arrow {
+            transform: rotate(45deg);
+        }
+
+        /* PRICING */
+        .pricing {
+            background: var(--gray-light);
+        }
+
+        .price-box {
+            border: 1px solid rgba(200, 241, 53, 0.25);
+            padding: 48px;
+            max-width: 560px;
+            position: relative;
+            overflow: hidden;
+            margin-top: 40px;
+        }
+
+        .price-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--accent);
+        }
+
+        .price-badge {
+            display: inline-block;
+            background: rgba(200, 241, 53, 0.12);
+            color: var(--accent);
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            padding: 4px 10px;
+            border-radius: 2px;
+            margin-bottom: 24px;
+        }
+
+        .price-from {
+            font-size: 14px;
+            color: rgba(245, 243, 238, 0.4);
+            text-decoration: line-through;
+            margin-bottom: 4px;
+        }
+
+        .price-main {
+            display: flex;
+            align-items: baseline;
+            gap: 6px;
+            margin-bottom: 6px;
+        }
+
+        .price-currency {
+            font-family: var(--font-display);
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .price-value {
+            font-family: var(--font-display);
+            font-size: 72px;
+            font-weight: 800;
+            color: var(--white);
+            line-height: 1;
+            letter-spacing: -0.04em;
+        }
+
+        .price-desc {
+            font-size: 14px;
+            color: rgba(245, 243, 238, 0.4);
+            margin-bottom: 32px;
+        }
+
+        .price-includes {
+            list-style: none;
+            margin-bottom: 36px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .price-includes li {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            font-size: 15px;
+            color: rgba(245, 243, 238, 0.75);
+        }
+
+        .price-includes li::before {
+            content: '✓';
+            color: var(--accent);
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .price-guarantee {
+            font-size: 13px;
+            color: rgba(245, 243, 238, 0.4);
+            margin-top: 16px;
+            text-align: center;
+        }
+
+        /* FINAL CTA */
+        .final-cta {
+            text-align: center;
+            padding: 100px 0;
+            background: var(--black);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .final-cta::before {
+            content: '';
+            position: absolute;
+            bottom: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(200, 241, 53, 0.06) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .final-cta h2 {
+            font-size: clamp(32px, 5vw, 54px);
+            max-width: 600px;
+            margin: 0 auto 16px;
+        }
+
+        .final-cta p {
+            font-size: 18px;
+            color: rgba(245, 243, 238, 0.5);
+            margin-bottom: 40px;
+        }
+
+        /* FOOTER */
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 32px 0;
+            text-align: center;
+        }
+
+        footer p {
+            font-size: 13px;
+            color: rgba(245, 243, 238, 0.25);
+        }
+
+        /* ANIMATIONS */
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity .65s ease, transform .65s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 640px) {
+
+            .problem-grid,
+            .del-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .mech-step {
+                grid-template-columns: 56px 1fr;
+            }
+
+            .mech-num {
+                font-size: 22px;
+            }
+
+            .price-box {
+                padding: 32px 24px;
+            }
+
+            .price-value {
+                font-size: 56px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+
+            .stat-item+.stat-item {
+                border-left: none;
+                border-top: 1px solid var(--border);
+                padding-top: 24px;
+            }
+
+            h2 {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <div class="inner">
+            <div class="nav-logo">THE GOD <span>PROMPT</span></div><a href="https://kiwify.com.br/SEU-LINK"
+                class="nav-cta" target="_blank">Quero agora</a>
+        </div>
+    </nav>
+    <section class="hero">
+        <div class="container">
+            <div class="hero-eyebrow">Método de Amplificação por IA</div>
+            <h1>Viralidade não é<br>sorte. <em>É matemática.</em></h1>
+            <p class="hero-sub">Você não está utilizando toda a potencialidade da IA para criar conteúdo. O problema é
+                que <strong>o algoritmo não
+                    distribui esforço — distribui padrão.</strong>Este guia te entrega a engenharia por trás do
+                alcance orgânico consistente no Instagram. </p>
+
+    </section>
+    <div class="stats-bar">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-num">3x</div>
+                    <div class="stat-label">mais alcance orgânico médio</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-num">+100M</div>
+                    <div class="stat-label">de alcance com nossos prompts validados</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-num">100%</div>
+                    <div class="stat-label">baseado em padrão algorítmico</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <section class="problem">
+        <div class="container reveal"><span class="section-label">O diagnóstico real</span>
+            <h2>Por que criadores talentosos<br><em>não escalam</em></h2>
+            <p style="color:rgba(245,243,238,0.55); max-width:580px; margin-bottom:40px; font-size:17px;">
+                Não é falta de qualidade. Não é falta de consistência. É ausência de sistema. O
+                algoritmo do Instagram opera com lógica específica — e quem não entende essa lógica está
+                essencialmente publicando no vazio. </p>
+            <div class="problem-grid">
+                <div class="problem-item"><strong>Conteúdo bom que some</strong>
+                    <p>Você publica um Reel bem produzido. Nas primeiras horas,
+                        nada. Depois de 24h,
+                        alcance orgânico abaixo dos seus próprios seguidores. O algoritmo não entendeu o
+                        sinal.</p>
+                </div>
+                <div class="problem-item"><strong>Viralidade acidental</strong>
+                    <p>Quando funciona,
+                        você não sabe por quê. Tenta replicar o mesmo formato,
+                        mesmo tema,
+                        mesmo horário — e o resultado não repete. Isso é sinal de que faltou sistema,
+                        não sorte.</p>
+                </div>
+                <div class="problem-item"><strong>IA genérica que não converte</strong>
+                    <p>Você já tentou usar ChatGPT para criar conteúdo. O resultado soa artificial,
+                        sem sua voz,
+                        sem conexão com o seu público. A ferramenta não é o problema — a abordagem é.
+                    </p>
+                </div>
+                <div class="problem-item"><strong>Crescimento que estagna</strong>
+                    <p>Meses produzindo,
+                        curva flat. A conta cresce devagar enquanto perfis com conteúdo claramente
+                        inferior explodem. A diferença não é talento — é engenharia de distribuição.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section>
+        <div class="container reveal"><span class="section-label">O mecanismo</span>
+            <h2>Como o <em>Método A.R.A.</em><br>funciona na prática</h2>
+            <p class="mechanism-intro">A.R.A. — <strong>Amplificação por Ressonância
+                    Algorítmica</strong>— é a abordagem que usa IA não para criar do zero,
+                mas para identificar e amplificar os padrões que já funcionam no seu conteúdo. </p>
+            <div class="mech-steps">
+                <div class="mech-step">
+                    <div class="mech-num">01</div>
+                    <div class="mech-content">
+                        <h3>Diagnóstico de padrão</h3>
+                        <p>Antes de criar qualquer coisa,
+                            você identifica quais elementos do seu conteúdo existente geraram os
+                            melhores sinais de distribuição — retenção,
+                            compartilhamento,
+                            comentário. A IA acelera essa leitura.</p><span class="tag">Análise de
+                            sinal</span>
+                    </div>
+                </div>
+                <div class="mech-step">
+                    <div class="mech-num">02</div>
+                    <div class="mech-content">
+                        <h3>Engenharia do hook</h3>
+                        <p>Os primeiros 2 segundos determinam se o algoritmo distribui ou enterra
+                            seu Reel. Você aprende a estrutura matemática por trás de hooks que
+                            forçam retenção — com prompts específicos para gerar variações no seu
+                            estilo.</p><span class="tag">Retenção algorítmica</span>
+                    </div>
+                </div>
+                <div class="mech-step">
+                    <div class="mech-num">03</div>
+                    <div class="mech-content">
+                        <h3>Amplificação por IA</h3>
+                        <p>Com o padrão identificado e o hook estruturado,
+                            a IA entra como amplificador — não como substituto da sua voz. Você
+                            mantém autenticidade e ganha velocidade e consistência de sistema.</p>
+                        <span class="tag">IA como alavanca</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="deliverables">
+        <div class="container reveal"><span class="section-label">O que está incluído</span>
+            <h2>Tudo que você recebe<br>por <em>R$27</em></h2>
+            <div class="del-grid">
+                <div class="del-item">
+                    <div class="del-icon">⚡</div>
+                    <h3>O God Prompt principal</h3>
+                    <p>O prompt estratégico que instrui a IA a trabalhar com seu conteúdo de
+                        forma autêntica — preservando voz,
+                        tom e posicionamento enquanto otimiza para distribuição algorítmica.</p>
+                </div>
+                <div class="del-item">
+                    <div class="del-icon">🎯</div>
+                    <h3>Framework de análise de padrão</h3>
+                    <p>Metodologia para identificar quais elementos dos seus Reels existentes
+                        geraram melhor performance — e como replicar esses padrões
+                        sistematicamente.</p>
+                </div>
+                <div class="del-item">
+                    <div class="del-icon">🔩</div>
+                    <h3>Biblioteca de hooks validados</h3>
+                    <p>Estruturas de abertura que já foram testadas em conteúdo real no
+                        Instagram. Não são templates genéricos — são arquiteturas de retenção
+                        baseadas em lógica algorítmica.</p>
+                </div>
+                <div class="del-item">
+                    <div class="del-icon">📐</div>
+                    <h3>Guia de implementação rápida</h3>
+                    <p>Protocolo passo a passo para aplicar o método no seu próximo Reel. Da
+                        análise à publicação,
+                        sem etapa ambígua — mesmo que você nunca tenha usado IA para conteúdo
+                        antes.</p>
+                </div>
+            </div>
+
+            <style>
+                @keyframes pulseButton {
+                    0% {
+                        box-shadow: 0 0 0 0 rgba(200, 241, 53, 0.4);
+                        transform: scale(1);
+                    }
+
+                    70% {
+                        box-shadow: 0 0 0 15px rgba(200, 241, 53, 0);
+                        transform: scale(1.02);
+                    }
+
+                    100% {
+                        box-shadow: 0 0 0 0 rgba(200, 241, 53, 0);
+                        transform: scale(1);
+                    }
+                }
+
+                .btn-super {
+                    width: 100%;
+                    max-width: 440px;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 6px;
+                    padding: 20px 24px;
+                    font-size: 22px;
+                    box-shadow: 0 10px 40px rgba(200, 241, 53, 0.3);
+                    border: 2px solid var(--accent);
+                    position: relative;
+                    z-index: 10;
+                    animation: pulseButton 2.5s infinite;
+                }
+
+                .btn-super .price-strike {
+                    font-size: 14px;
+                    text-decoration: line-through;
+                    opacity: 0.75;
+                    font-weight: 600;
+                    text-transform: uppercase;
+                    letter-spacing: 0.05em;
+                }
+
+                .btn-super .price-main {
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                }
+
+                .btn-super:hover {
+                    animation: none;
+                    transform: translateY(-2px);
+                }
+            </style>
+
+            <div style="display: flex; justify-content: center; margin-top: 48px; width: 100%;">
+                <a href="https://kiwify.com.br/SEU-LINK" class="btn-primary btn-super" target="_blank">
+                    <span class="price-strike">de R$147</span>
+                    <span class="price-main">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                            stroke-linecap="round" stroke-linejoin="round" style="width: 24px; height: 24px;">
+                            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+                        </svg>
+                        Acessar por R$27
+                    </span>
+                </a>
+            </div>
+        </div>
+    </section>
+    <section>
+        <div class="container reveal"><span class="section-label">Fit de produto</span>
+            <h2>Este guia foi feito<br>para <em>você</em>se…</h2>
+            <div class="forwho-list">
+                <div class="forwho-item"><span class="forwho-check">✓</span>
+                    <p>Você já produz conteúdo com <strong>consistência e
+                            qualidade</strong>,
+                        mas o alcance orgânico não cresce na mesma proporção do esforço</p>
+                </div>
+                <div class="forwho-item"><span class="forwho-check">✓</span>
+                    <p>Você já teve <strong>pelo menos um conteúdo que performou
+                            bem</strong>e quer entender a lógica por trás disso para
+                        replicar</p>
+                </div>
+                <div class="forwho-item"><span class="forwho-check">✓</span>
+                    <p>Você usa ou quer usar IA,
+                        mas <strong>recusa abrir mão da autenticidade</strong>da sua
+                        comunicação</p>
+                </div>
+                <div class="forwho-item"><span class="forwho-check">✓</span>
+                    <p>Você quer um <strong>sistema repetível</strong>,
+                        não depender de inspiração ou tendência para ter alcance</p>
+                </div>
+            </div>
+            <p
+                style="margin: 32px 0 12px; font-size: 14px; color: rgba(245,243,238,0.35); letter-spacing: 0.06em; text-transform: uppercase; font-weight: 500;">
+                Não é para você se…</p>
+            <div class="notwho-list">
+                <div class="notwho-item"><span class="notwho-x">✗</span>
+                    <p>Você está começando do zero e ainda não tem consistência de
+                        publicação</p>
+                </div>
+                <div class="notwho-item"><span class="notwho-x">✗</span>
+                    <p>Você quer que a IA crie tudo por você sem envolvimento estratégico
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section style="background: var(--gray-light);">
+        <div class="container reveal"><span class="section-label">Objeções comuns</span>
+            <h2>Perguntas que você<br>provavelmente tem</h2>
+            <div class="obj-grid">
+                <div class="obj-item">
+                    <div class="obj-q" onclick="toggleObj(this)">"Já tentei usar IA para
+                        conteúdo e ficou robotizado"
+                        <span class="arrow">+</span>
+                    </div>
+                    <div class="obj-a">O problema não era a IA — era a instrução. A
+                        maioria das pessoas usa prompts genéricos que não levam em conta
+                        voz,
+                        contexto ou intenção de distribuição. O God Prompt foi
+                        estruturado especificamente para preservar autenticidade
+                        enquanto otimiza para padrão algorítmico. São coisas que,
+                        com o prompt certo,
+                        não competem entre si. </div>
+                </div>
+                <div class="obj-item">
+                    <div class="obj-q" onclick="toggleObj(this)">"Não existe fórmula
+                        para viral, cada caso é um caso"
+                        <span class="arrow">+</span>
+                    </div>
+                    <div class="obj-a">Correto que cada nicho tem especificidades. Mas o
+                        algoritmo do Instagram opera com sinais consistentes
+                        independente de nicho: retenção nos primeiros 3 segundos,
+                        taxa de conclusão,
+                        velocidade de engajamento inicial. Esses padrões são mensuráveis
+                        e replicáveis. O método trabalha com esses sinais universais,
+                        não com "trends" passageiras. </div>
+                </div>
+                <div class="obj-item">
+                    <div class="obj-q" onclick="toggleObj(this)">"R$27 é barato demais,
+                        deve ser superficial"
+                        <span class="arrow">+</span>
+                    </div>
+                    <div class="obj-a">O preço é intencional. O objetivo é ser acessível
+                        o suficiente para eliminar a barreira de entrada — e denso o
+                        suficiente para gerar resultado real. O guia tem uma tese
+                        central clara,
+                        com método aplicável no mesmo dia da compra. Profundidade não é
+                        sinônimo de volume de páginas. </div>
+                </div>
+                <div class="obj-item">
+                    <div class="obj-q" onclick="toggleObj(this)">"Já comprei vários
+                        cursos de Instagram e nenhum funcionou"
+                        <span class="arrow">+</span>
+                    </div>
+                    <div class="obj-a">A maioria dos cursos ensina o quê produzir. Este
+                        guia ensina como o algoritmo decide distribuir. São camadas
+                        diferentes. Você pode continuar com sua estratégia de conteúdo
+                        atual — o método trabalha em cima do que você já faz,
+                        não substitui. </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="pricing">
+        <div class="container reveal"><span class="section-label">Oferta</span>
+            <h2>Acesso completo.<br><em>Agora.</em></h2>
+            <div class="price-box">
+                <div class="price-badge">The God Prompt — Acesso único</div>
+                <p class="price-from">De R$147</p>
+                <div class="price-main"><span class="price-currency">R$</span><span class="price-value">27</span>
+                </div>
+                <p class="price-desc">Pagamento único. Acesso imediato. Sem
+                    assinatura.</p>
+                <ul class="price-includes">
+                    <li>O God Prompt principal (pronto para usar)</li>
+                    <li>Framework de análise de padrão algorítmico</li>
+                    <li>Biblioteca de hooks validados para Reels</li>
+                    <li>Guia de implementação passo a passo</li>
+                    <li>Atualizações futuras inclusas</li>
+                </ul>
+                <div style="display: flex; justify-content: center; margin-top: 32px; width: 100%;">
+                    <a href="https://kiwify.com.br/SEU-LINK" class="btn-primary btn-super" target="_blank">
+                        <span class="price-strike">de R$147</span>
+                        <span class="price-main">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                                stroke-linecap="round" stroke-linejoin="round" style="width: 24px; height: 24px;">
+                                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+                            </svg>
+                            Quero acesso agora — R$27
+                        </span>
+                    </a>
+                </div>
+                <p class="price-guarantee">Compra 100% segura via Kiwify · Acesso
+                    liberado imediatamente após o pagamento</p>
+            </div>
+        </div>
+    </section>
+    <section class="final-cta">
+        <div class="container reveal">
+            <h2>O algoritmo não vai<br>esperar você<br><em>entender as
+                    regras.</em></h2>
+            <p>Cada Reel publicado sem sistema é alcance deixado na mesa.</p>
+            <div style="display: flex; justify-content: center; margin-top: 36px; width: 100%;">
+                <a href="https://kiwify.com.br/SEU-LINK" class="btn-primary btn-super" target="_blank">
+                    <span class="price-strike">de R$147</span>
+                    <span class="price-main">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                            stroke-linecap="round" stroke-linejoin="round" style="width: 24px; height: 24px;">
+                            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+                        </svg>
+                        Acessar The God Prompt — R$27
+                    </span>
+                </a>
+            </div>
+        </div>
+    </section>
+    <footer>
+        <div class="container">
+            <p>© 2026 The God Prompt · Todos os direitos reservados</p>
+            <p style="margin-top:6px">Este produto é um guia digital de
+                estratégia de conteúdo. Resultados dependem da aplicação
+                do método.</p>
+        </div>
+    </footer>
+    <script> // Accordion objections
+
+        function toggleObj(el) {
+            const item = el.parentElement;
+            const isOpen = item.classList.contains('open');
+            document.querySelectorAll('.obj-item').forEach(i => i.classList.remove('open'));
+            if (!isOpen) item.classList.add('open');
+        }
+
+        // Scroll reveal
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(e => {
+                if (e.isIntersecting) {
+                    e.target.classList.add('visible'); observer.unobserve(e.target);
+                }
+            });
+        }
+
+            , {
+                threshold: 0.1
+            });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    </script>
+</body>
+
+</html>
